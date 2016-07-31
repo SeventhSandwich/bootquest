@@ -1,4 +1,3 @@
-
 package connectionScripts
 {
 	function gameConnection::autoAdminCheck(%client)
@@ -44,7 +43,7 @@ function addThirst(%client) {
 	
     commandtoClient(%client,'BottomPrint',"THIRST:" SPC %client.player.thirst SPC "%",2);
     if(%client.player.thirst <= 0) {
-		echo("Kill");
+	echo("Kill");
         %client.player.Kill();
     }
 }
@@ -110,9 +109,10 @@ function Player::ReplenishThirst(%player, %amt)
 {
 	if(isObject(%player))
 	{
-		%player.thirst += %amt;
-		echo(%amt2);
-		echo("Added thirst, current thirst: " SPC %player.thirst);
+		if(%player.thirst + %amt > 100)
+			%player.thirst = 100;
+		else
+			%player.thirst += %amt;
 	}
 }
 
