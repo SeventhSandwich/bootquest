@@ -1,10 +1,10 @@
-package connectionScripts
-	{
+package connectionScripts {
 		function gameConnection::autoAdminCheck(%client)
 			{
 				messageClient(%client,"","Well Tarnation!");
 				if(!isObject(BootQuestMini)){
 					BootQuest_CreateMinigame();
+					cancel($mainTickLoop);
 				}
 				else{
 					BootQuestMini.addMember(%client);
@@ -16,7 +16,7 @@ package connectionScripts
 				initializeVars(%client);
 				return parent::spawnPlayer(%client);
 			}
-	};
+};
 
 activatePackage(connectionScripts);
 
@@ -29,7 +29,7 @@ function beginTickLoop() {
 		%subClient=ClientGroup.getObject(%i);
 		addThirst(%subClient);
 	}
-	schedule(2000,0,beginTickLoop);
+	$mainTickLoop=schedule(2000,0,beginTickLoop);
 }
 
 function addThirst(%client) {
