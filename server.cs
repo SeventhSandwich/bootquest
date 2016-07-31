@@ -94,4 +94,5 @@ function BootQuest_CreateMinigame()
         BootQuestMini.addMember(ClientGroup.getObject(%a));
 }
 
+cancel($mainTickLoop);
 beginTickLoop();
