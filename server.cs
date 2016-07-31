@@ -1,4 +1,4 @@
-package connectionScripts
+package BootQuest
 {
 	function gameConnection::autoAdminCheck(%client)
 		{
@@ -11,6 +11,13 @@ package connectionScripts
 			}
 				
 		}
+	function destroyServer() 
+		{
+			if($BootQuest::Schedule)
+				cancel($BootQuest::Schedule);
+
+			parent::destroyServer();
+		}
 	function gameConnection::spawnPlayer(%client)
 		{
 			parent::spawnPlayer(%client);
@@ -21,7 +28,7 @@ package connectionScripts
 		}
 };
 
-activatePackage(connectionScripts);
+activatePackage(BootQuest);
 
 function initializeVars(%client) {
     %client.player.thirst = 100;
@@ -32,7 +39,7 @@ function beginTickLoop() {
         %subClient=ClientGroup.getObject(%i);
         addThirst(%subClient);
     }
-    schedule(2000,0,beginTickLoop);
+    $BootQuest::Schedule=schedule(2000,0,beginTickLoop);
 }
 
 function addThirst(%client) {
@@ -40,13 +47,19 @@ function addThirst(%client) {
 		return;
 	
     %client.player.thirst -= 2;
-	
-    commandtoClient(%client,'BottomPrint',"THIRST:" SPC %client.player.thirst SPC "%",2);
+    displayPlayerStats(%client);
     if(%client.player.thirst <= 0) {
 	echo("Kill");
         %client.player.Kill();
     }
 }
+
+function displayPlayerStats(%client) {
+	commandtoClient(%client,'BottomPrint',"THIRST:" SPC %client.player.thirst SPC "%",0);
+}
+
+if(isObject(BootQuestMini))
+	cancel($BootQuest::Schedule);
 
 beginTickLoop();
 
@@ -113,6 +126,7 @@ function Player::ReplenishThirst(%player, %amt)
 			%player.thirst = 100;
 		else
 			%player.thirst += %amt;
+		displayPlayerStats(%player.client);
 	}
 }
 
