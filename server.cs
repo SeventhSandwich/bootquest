@@ -82,11 +82,11 @@ function BootQuest_CreateMinigame()
         EnableBuilding = true;
         enablePainting = true;
 
-        StartEquip0 = 0;
-        StartEquip1 = 0;
-        StartEquip2 = 0;
-        StartEquip3 = 0;
-        StartEquip4 = 0;
+	StartEquip0 = "65";
+	StartEquip1 = "75";
+	StartEquip2 = "383";
+	StartEquip3 = 0;
+	StartEquip4 = 0;
 
     };
 
